@@ -25,7 +25,7 @@ This utility compares binary packages from two branches of the ALT Linux package
 2. **Build and Install:**
 
    ```bash
-   cd project_root
+   cd baseAlt_test
    make
    sudo make install
    sudo ldconfig
