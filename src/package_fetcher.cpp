@@ -1,4 +1,5 @@
 #include "package_fetcher.h"
+#include "compare_versions.h"
 #include <iostream>
 #include <curl/curl.h>
 #include <map>
@@ -81,7 +82,7 @@ json PackageFetcher::comparePackages(const json& branch1, const json& branch2) {
         for (const auto& [key, pkg1] : branch1Packages) {
             if (branch2Packages.find(key) != branch2Packages.end()) {
                 const auto& pkg2 = branch2Packages[key];
-                if (compareRpmVersions(pkg1["version"], pkg1["release"], pkg2["version"], pkg2["release"])) {
+                if (compareRpmVersions(pkg1["version"], pkg1["release"], pkg2["version"], pkg2["release"]) > 0) {
                     result["higher_in_branch1"].push_back({{"name", pkg1["name"]}, {"arch", pkg1["arch"]}});
                 }
             }
@@ -107,10 +108,3 @@ size_t PackageFetcher::WriteCallback(void* contents, size_t size, size_t nmemb, 
     return totalSize;
 }
 
-bool PackageFetcher::compareRpmVersions(const std::string& version1, const std::string& release1,
-                                        const std::string& version2, const std::string& release2) {
-    if (version1 != version2) {
-        return version1 > version2;
-    }
-    return release1 > release2;
-}

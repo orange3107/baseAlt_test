@@ -17,8 +17,6 @@ private:
     void* curl; // CURL pointer
 
     static size_t WriteCallback(void* contents, size_t size, size_t nmemb, std::string* s);
-    static bool compareRpmVersions(const std::string& version1, const std::string& release1,
-                                   const std::string& version2, const std::string& release2);
 };
 
 #endif // PACKAGE_FETCHER_H
